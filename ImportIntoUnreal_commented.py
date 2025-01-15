@@ -4,7 +4,8 @@ from tkinter import filedialog
 
 
 def import_fbx_with_existing_skeleton(fbx_file_path, destination_path, skeleton_asset_path):
-    # this function will allow the user to select an animation to import and then it will import that animation with all these preset settings.  That way the user does not need to modify import settings every time they import animations into unreal as part of this pipeline.
+    # this function will allow the user to select an animation to import and then it will import that animation with all these preset settings.  
+    # That way the user does not need to modify import settings every time they import animations into unreal as part of this pipeline.
 
     root = tk.Tk()
     root.withdraw()
@@ -29,35 +30,34 @@ def import_fbx_with_existing_skeleton(fbx_file_path, destination_path, skeleton_
     options.import_textures = False
     options.create_physics_asset = False
 
-    # Assigns the skeleton that animation will be imported onto
-    skeleton_asset = unreal.EditorAssetLibrary.load_asset(skeleton_asset_path)
+    
+    skeleton_asset = unreal.EditorAssetLibrary.load_asset(skeleton_asset_path) # Assigns the skeleton that animation will be imported onto
     if skeleton_asset:
-        # Assign the skeleton to the options
-        options.skeleton = skeleton_asset
+        options.skeleton = skeleton_asset # Assign the skeleton to the options
         print(f"Using skeleton: {skeleton_asset.get_name()}")
     else:
         print(f"Error: Skeleton asset at {skeleton_asset_path} not found.")
         return  # Exit the function if skeleton is not found
 
-    # Assign options to the import task
-    import_task.options = options
-
-    # Perform the import task
-    unreal.AssetToolsHelpers.get_asset_tools().import_asset_tasks([import_task])
+  
+    import_task.options = options   # Assign options to the import task
+    
+    unreal.AssetToolsHelpers.get_asset_tools().import_asset_tasks([import_task]) # Perform the import task
 
     print(f"FBX Import Complete: {fbx_file_path} -> {destination_path}")
 
 # Run the importer
 if __name__ == "__main__":
 
-   fbx_file = filedialog.askopenfile(mode='r', title="Select FBX File", filetypes=[("FBX Files", "*.fbx")]) #will open a windows dialog so that the user can choose which file to import
+   fbx_file = filedialog.askopenfile(mode='r', title="Select FBX File", filetypes=[("FBX Files", "*.fbx")]) 
+   # will open a windows dialog so that the user can choose which file to import
    
    if fbx_file:
         FBX_FILE_PATH = fbx_file.name  # Get the file path as a string
         DESTINATION_PATH = "/Game/Frankie/Animation"  # The Unreal folder where the animation will be imported
         SKELETON_ASSET_PATH = '/Game/Frankie/Mesh/FrankieBody_Export_Skeleton'  # Path to the existing skeleton asset in Unreal
 
-        # Run the function to import the FBX with the existing skeleton
-        import_fbx_with_existing_skeleton(FBX_FILE_PATH, DESTINATION_PATH, SKELETON_ASSET_PATH)
+        
+        import_fbx_with_existing_skeleton(FBX_FILE_PATH, DESTINATION_PATH, SKELETON_ASSET_PATH)# Run the function to import the FBX with the existing skeleton
 else:
         print("No file selected.")
