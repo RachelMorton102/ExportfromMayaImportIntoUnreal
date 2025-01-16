@@ -33,7 +33,7 @@ class ExportToolUI(QWidget):
 
    def connect_ui(self): 
       # the button will run the script when pressed
-      self.runScriptButton.clicked.connect(self.action) 
+      self.runScriptButton.clicked.connect(self.exportAnimation) 
    
    def exportAnimation(self): 
       #here is the purpose of the tool.  This function will ask the user to name the file and then export it as an fbx 
